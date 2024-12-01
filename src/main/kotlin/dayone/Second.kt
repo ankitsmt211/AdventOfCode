@@ -10,13 +10,10 @@ class Second (private val locationsOne: MutableList<Int>, private val locationsT
     }
 
     fun prepareSimilarityScores(){
-        val frequency: MutableMap<Int, Int> = mutableMapOf()
-        for(item in locationsTwo){
-            frequency[item] = frequency[item]?.plus(1) ?: 1
-        }
+        val frequency: Map<Int, Int> = locationsTwo.groupingBy { it }.eachCount()
 
         for(item in locationsOne){
-            val score = (frequency[item] ?:0 ) * item
+            val score = frequency.getOrDefault(item, 0) * item
             this._similarityScore+=score
         }
 
